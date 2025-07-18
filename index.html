@@ -887,8 +887,8 @@
                         <input type="text" id="materiaCustomizada" placeholder="Digite o nome da matéria" style="display: none; margin-top: 10px;">
                     </div>
                     <div class="input-field">
-                        <label>Peso no Edital (1-10)</label>
-                        <input type="number" id="pesoMateria" min="1" max="10" value="5">
+                        <label>Peso no Edital (1-5)</label>
+                        <input type="number" id="pesoMateria" min="1" max="5" value="5">
                     </div>
                     <div class="input-field">
                         <label>Sua Dificuldade (1-5)</label>
@@ -928,25 +928,7 @@
                 </div>
             </div>
 
-            <!-- Matérias Estudadas Hoje -->
-            <div class="section" id="materiasHojeSection" style="display: none;">
-                <h2>📅 Matérias Estudadas Hoje</h2>
-                <div id="materiasHojeEstatisticas" class="stats"></div>
-                <div class="ciclo-container">
-                    <h3 style="text-align: center; color: #2d3748; margin-bottom: 20px;">📊 Distribuição do Tempo por Matéria</h3>
-                    <div id="materiasHojeGrafico" style="max-height: 400px; overflow-y: auto;"></div>
-                </div>
-            </div>
-
-            <!-- Histórico de Estudos -->
-            <div class="section" id="historicoSection" style="display: none;">
-                <h2>📈 Histórico de Estudos</h2>
-                <div id="historicoEstatisticas" class="stats"></div>
-                <div class="ciclo-container">
-                    <h3 style="text-align: center; color: #2d3748; margin-bottom: 20px;">📅 Últimas Sessões</h3>
-                    <div id="historicoLista" style="max-height: 300px; overflow-y: auto;"></div>
-                </div>
-            </div>
+           
 
             <!-- Ciclo de Estudos -->
             <div class="section">
@@ -1060,7 +1042,25 @@
                     </p>
                 </div>
             </div>
+ <!-- Matérias Estudadas Hoje -->
+            <div class="section" id="materiasHojeSection" style="display: none;">
+                <h2>📅 Matérias Estudadas Hoje</h2>
+                <div id="materiasHojeEstatisticas" class="stats"></div>
+                <div class="ciclo-container">
+                    <h3 style="text-align: center; color: #2d3748; margin-bottom: 20px;">📊 Distribuição do Tempo por Matéria</h3>
+                    <div id="materiasHojeGrafico" style="max-height: 400px; overflow-y: auto;"></div>
+                </div>
+            </div>
 
+            <!-- Histórico de Estudos -->
+            <div class="section" id="historicoSection" style="display: none;">
+                <h2>📈 Histórico de Estudos</h2>
+                <div id="historicoEstatisticas" class="stats"></div>
+                <div class="ciclo-container">
+                    <h3 style="text-align: center; color: #2d3748; margin-bottom: 20px;">📅 Últimas Sessões</h3>
+                    <div id="historicoLista" style="max-height: 300px; overflow-y: auto;"></div>
+                </div>
+            </div>
             <!-- Instruções -->
             <div class="section">
                 <h2>📖 Como Usar</h2>
@@ -1701,7 +1701,7 @@
             const duracaoBase = parseInt(document.getElementById('duracaoSessao').value) || 45;
             
             // Fator de peso (1-10): matérias mais importantes precisam de mais tempo
-            const fatorPeso = 0.8 + (peso / 10) * 0.4; // Varia de 0.8 a 1.2
+            const fatorPeso = 0.8 + (peso / 5) * 0.4; // Varia de 0.8 a 1.2
             
             // Fator de dificuldade (1-5): matérias mais difíceis precisam de mais tempo
             const fatorDificuldade = 0.7 + (dificuldade / 5) * 0.6; // Varia de 0.7 a 1.3
