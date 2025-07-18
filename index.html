@@ -1825,12 +1825,7 @@ if (inicioSalvo) {
   tempoDecorrido = tempoPassado; // atualiza o cronômetro com esse tempo
   atualizarVisualCronometro();   // exibe o tempo na tela
 }
-function atualizarVisualCronometro() {
-  const minutos = Math.floor(tempoDecorrido / 60000);
-  const segundos = Math.floor((tempoDecorrido % 60000) / 1000);
-  document.getElementById('cronometro').textContent =
-    `${minutos.toString().padStart(2, '0')}:${segundos.toString().padStart(2, '0')}`;
-}
+
 
             
             if (cicloAtual.length === 0) {
@@ -1889,7 +1884,12 @@ function atualizarVisualCronometro() {
             // Atualizar estatísticas do cronômetro
             atualizarEstatisticasDia();
         }
-
+function atualizarVisualCronometro() {
+  const minutos = Math.floor(tempoDecorrido / 60000);
+  const segundos = Math.floor((tempoDecorrido % 60000) / 1000);
+  document.getElementById('cronometro').textContent =
+    `${minutos.toString().padStart(2, '0')}:${segundos.toString().padStart(2, '0')}`;
+}
         // Função para atualizar estatísticas
         function atualizarEstatisticas() {
             if (cicloAtual.length === 0) return;
