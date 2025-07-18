@@ -1885,6 +1885,8 @@ if (inicioSalvo) {
             atualizarEstatisticasDia();
         }
 function atualizarVisualCronometro() {
+    if (!document.getElementById('cronometro')) return;
+
   const minutos = Math.floor(tempoDecorrido / 60000);
   const segundos = Math.floor((tempoDecorrido % 60000) / 1000);
   document.getElementById('cronometro').textContent =
