@@ -989,9 +989,7 @@
                     <p id="tempoTotalHoje" style="font-weight: bold; font-size: 1.1em;">
   Você estudou hoje: 0h00min
 </p>
-                    <p id="fraseMotivacional" style="font-size: 1.1em; margin-top: 8px; font-style: italic;">
-  ✨ Se você fechar o cronômetro não continua, ok?
-</p>
+<p id="fraseMotivacional" style="font-size: 1.1em; margin-top: 8px; font-style: italic;"></p></p>
 
 
                     
@@ -2209,7 +2207,14 @@ if (inicioSalvo) {
             localStorage.setItem('cronometroInicio', Date.now());
 
             console.log('🎯 Tentando iniciar cronômetro...');
-            
+            const sessaoIndexSalvo = parseInt(localStorage.getItem('sessaoEmAndamento'));
+const tempoRestanteSalvo = parseInt(localStorage.getItem('tempoRestanteSessao'));
+
+if (sessaoIndexSalvo === sessaoAtualIndex && tempoRestanteSalvo > 0) {
+  tempoDecorrido = (sessaoAtual.duracao - tempoRestanteSalvo) * 60000; // tempo já estudado em ms
+  atualizarVisualCronometro();
+}
+
             if (cicloAtual.length === 0) {
                 alert('❌ Gere um ciclo primeiro!');
                 console.log('❌ Nenhum ciclo encontrado');
@@ -2307,6 +2312,11 @@ if (inicioSalvo) {
         function pararCronometro() {
             if (!cronometroAtivo && !cronometroPausado) return;
             localStorage.removeItem('cronometroInicio');
+const sessaoAtual = cicloAtual[sessaoAtualIndex];
+if (sessaoAtual) {
+  localStorage.setItem('tempoRestanteSessao', sessaoAtual.duracao - Math.floor(tempoDecorrido / 60000)); // em minutos
+  localStorage.setItem('sessaoEmAndamento', sessaoAtualIndex);
+}
 
             // Parar completamente
             cronometroAtivo = false;
@@ -2338,7 +2348,9 @@ if (inicioSalvo) {
             localStorage.removeItem('cronometroInicio');
 
             const tempoEstudado = Math.ceil(tempoDecorrido / 60); // Converter para minutos
-            
+            localStorage.removeItem('tempoRestanteSessao');
+localStorage.removeItem('sessaoEmAndamento');
+
             // Parar cronômetro
             pararCronometro();
             
@@ -2466,20 +2478,24 @@ if (inicioSalvo) {
   const texto = `Você estudou hoje: ${horas}h${minutos.toString().padStart(2, '0')}min`;
   document.getElementById('tempoTotalHoje').textContent = texto;
 
-                let frase = '';
-if (minutosHoje < 30) {
-  frase = '🌱 Todo começo conta. Você está no caminho certo!';
-} else if (minutosHoje < 60) {
-  frase = '🔥 Foco ativado! Continue assim.';
-} else if (minutosHoje < 120) {
-  frase = '🚀 Você tá voando! Dá pra conquistar muito hoje.';
-} else if (minutosHoje < 180) {
-  frase = '💎 Produtividade de elite! Orgulho de você!';
-} else {
-  frase = '🧠👑 Você é uma máquina dos estudos!';
+let frase = '';
+
+if (minutosHoje > 0) {
+  if (minutosHoje < 30) {
+    frase = '🌱 Todo começo conta. Você está no caminho certo!';
+  } else if (minutosHoje < 60) {
+    frase = '🔥 Foco ativado! Continue assim.';
+  } else if (minutosHoje < 120) {
+    frase = '🚀 Você tá voando! Dá pra conquistar muito hoje.';
+  } else if (minutosHoje < 180) {
+    frase = '💎 Produtividade de elite! Orgulho de você!';
+  } else {
+    frase = '🧠👑 Você é uma máquina dos estudos!';
+  }
 }
 
 document.getElementById('fraseMotivacional').textContent = frase;
+
 
                 
             });
