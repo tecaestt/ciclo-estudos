@@ -990,7 +990,7 @@
   Você estudou hoje: 0h00min
 </p>
                     <p id="fraseMotivacional" style="font-size: 1.1em; margin-top: 8px; font-style: italic;">
-  ✨ Sua frase motivacional vai aparecer aqui!
+  ✨ Se você fechar o cronômetro não continua, ok?
 </p>
 
 
@@ -1808,6 +1808,15 @@
             const progresso = document.getElementById('progressoContainer');
             const controles = document.getElementById('controlesContainer');
             const graficoContainer = document.getElementById('graficoContainer');
+
+
+            const inicioSalvo = localStorage.getItem('cronometroInicio');
+if (inicioSalvo) {
+  const tempoPassado = Date.now() - parseInt(inicioSalvo);
+  tempoDecorrido = tempoPassado; // atualiza o cronômetro com esse tempo
+  atualizarVisualCronometro();   // exibe o tempo na tela
+}
+
             
             if (cicloAtual.length === 0) {
                 container.innerHTML = '<p style="text-align: center; color: #6c757d; font-style: italic;">Adicione matérias e clique em "Gerar Ciclo" para começar</p>';
@@ -2197,6 +2206,8 @@
         // ===== FUNÇÕES DO CRONÔMETRO =====
         
         function iniciarCronometro() {
+            localStorage.setItem('cronometroInicio', Date.now());
+
             console.log('🎯 Tentando iniciar cronômetro...');
             
             if (cicloAtual.length === 0) {
@@ -2295,7 +2306,8 @@
         
         function pararCronometro() {
             if (!cronometroAtivo && !cronometroPausado) return;
-            
+            localStorage.removeItem('cronometroInicio');
+
             // Parar completamente
             cronometroAtivo = false;
             cronometroPausado = false;
@@ -2323,7 +2335,8 @@
         
         function completarSessao() {
             if (!cronometroAtivo && !cronometroPausado) return;
-            
+            localStorage.removeItem('cronometroInicio');
+
             const tempoEstudado = Math.ceil(tempoDecorrido / 60); // Converter para minutos
             
             // Parar cronômetro
