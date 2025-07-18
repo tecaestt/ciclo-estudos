@@ -1886,7 +1886,10 @@ if (inicioSalvo) {
         }
 function atualizarVisualCronometro() {
     if (!document.getElementById('cronometro')) return;
+document.getElementById('cronometro').textContent =
+  `${minutos.toString().padStart(2, '0')}:${segundos.toString().padStart(2, '0')}`;
 
+localStorage.setItem('tempoDecorrido', tempoDecorrido);
   const minutos = Math.floor(tempoDecorrido / 60000);
   const segundos = Math.floor((tempoDecorrido % 60000) / 1000);
   document.getElementById('cronometro').textContent =
