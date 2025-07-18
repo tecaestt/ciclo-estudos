@@ -984,6 +984,18 @@
                 </div>
 
                 <div class="controles" id="controlesContainer" style="display: none;">
+
+                    
+                    <p id="tempoTotalHoje" style="font-weight: bold; font-size: 1.1em;">
+  Você estudou hoje: 0h00min
+</p>
+                    <p id="fraseMotivacional" style="font-size: 1.1em; margin-top: 8px; font-style: italic;">
+  ✨ Sua frase motivacional vai aparecer aqui!
+</p>
+
+
+                    
+                    
                     <!-- Cronômetro de Estudo -->
                     <div class="cronometro-container" id="cronometroContainer">
                         <div class="cronometro-display">
@@ -2416,6 +2428,9 @@
             const mins = Math.floor(segundos / 60);
             const secs = segundos % 60;
             return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+             
+            
+
         }
         
         function atualizarEstatisticasDia() {
@@ -2425,6 +2440,35 @@
             const sessoesHoje = historicoEstudos.filter(sessao => {
                 const dataSessao = new Date(sessao.data).toDateString();
                 return dataSessao === hoje;
+
+                // Somar tempo estudado hoje
+  const historico = recuperarHistoricoHoje(); // deve retornar array de sessões do dia
+  const minutosHoje = historico.reduce((total, sessao) => total + sessao.duracao, 0);
+
+  // Converter pra horas e minutos
+  const horas = Math.floor(minutosHoje / 60);
+  const minutos = minutosHoje % 60;
+
+  // Atualizar texto na interface
+  const texto = `Você estudou hoje: ${horas}h${minutos.toString().padStart(2, '0')}min`;
+  document.getElementById('tempoTotalHoje').textContent = texto;
+
+                let frase = '';
+if (minutosHoje < 30) {
+  frase = '🌱 Todo começo conta. Você está no caminho certo!';
+} else if (minutosHoje < 60) {
+  frase = '🔥 Foco ativado! Continue assim.';
+} else if (minutosHoje < 120) {
+  frase = '🚀 Você tá voando! Dá pra conquistar muito hoje.';
+} else if (minutosHoje < 180) {
+  frase = '💎 Produtividade de elite! Orgulho de você!';
+} else {
+  frase = '🧠👑 Você é uma máquina dos estudos!';
+}
+
+document.getElementById('fraseMotivacional').textContent = frase;
+
+                
             });
             
             const tempoHoje = sessoesHoje.reduce((total, sessao) => total + sessao.duracao, 0);
