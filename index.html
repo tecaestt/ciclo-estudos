@@ -1244,6 +1244,16 @@
                         totalTempo: 0,
                         ciclosCompletos: 0,
                         tempoTotalPorMateria: {}
+
+
+
+                        const tempoSalvo = localStorage.getItem('tempoDecorrido');
+if (tempoSalvo) {
+  tempoDecorrido = parseInt(tempoSalvo);
+  atualizarVisualCronometro(); // se essa função já existe
+}
+
+                    
                     };
                     
                     // Atualizar interface
@@ -1815,6 +1825,12 @@ if (inicioSalvo) {
   tempoDecorrido = tempoPassado; // atualiza o cronômetro com esse tempo
   atualizarVisualCronometro();   // exibe o tempo na tela
 }
+function atualizarVisualCronometro() {
+  const minutos = Math.floor(tempoDecorrido / 60000);
+  const segundos = Math.floor((tempoDecorrido % 60000) / 1000);
+  document.getElementById('cronometro').textContent =
+    `${minutos.toString().padStart(2, '0')}:${segundos.toString().padStart(2, '0')}`;
+}
 
             
             if (cicloAtual.length === 0) {
@@ -2206,7 +2222,8 @@ if (inicioSalvo) {
         
         function iniciarCronometro() {
             localStorage.setItem('cronometroInicio', Date.now());
-
+localStorage.setItem('tempoDecorrido', tempoDecorrido);
+localStorage.setItem('sessaoAtualIndex', sessaoAtualIndex);
             console.log('🎯 Tentando iniciar cronômetro...');
             const sessaoIndexSalvo = parseInt(localStorage.getItem('sessaoEmAndamento'));
 const tempoRestanteSalvo = parseInt(localStorage.getItem('tempoRestanteSessao'));
@@ -2351,6 +2368,10 @@ if (sessaoAtual) {
             const tempoEstudado = Math.ceil(tempoDecorrido / 60); // Converter para minutos
             localStorage.removeItem('tempoRestanteSessao');
 localStorage.removeItem('sessaoEmAndamento');
+
+
+            localStorage.removeItem('tempoDecorrido');
+localStorage.removeItem('sessaoAtualIndex');
 
             // Parar cronômetro
             pararCronometro();
