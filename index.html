@@ -2327,6 +2327,24 @@
             atualizarEstatisticasDia();
             
             console.log(`✅ Sessão completada: ${sessaoAtual.materia} (${tempoEstudado}min)`);
+
+            pararCronometro(); // garante que o cronômetro pare
+
+  const tempoRealMinutos = Math.floor(tempoDecorrido / 60000); // converte o tempo decorrido em minutos
+
+  // Valida se estudou pelo menos 5 min para registrar
+  if (tempoRealMinutos >= 5) {
+    const sessao = cicloAtual[sessaoAtualIndex];
+    if (sessao) {
+      registrarSessao(sessao.materia, tempoRealMinutos); // salva no histórico
+      sessoesConcluidas++; // atualiza total de sessões
+      atualizarEstatisticasDia(); // atualiza estatísticas visuais (como "Sessões Hoje")
+      salvarDados(); // salva no navegador
+    }
+  }
+  // Avança para próxima sessão
+  sessaoAtualIndex++;
+  atualizarVisualizacaoCiclo();
         }
         
         function atualizarCronometro() {
